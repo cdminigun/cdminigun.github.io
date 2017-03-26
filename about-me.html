@@ -1,55 +1,119 @@
 ---
-layout: page
-intro: >
-    Lorem ipsum dolor sit amet,
-    consectetur adipisicing elit, sed do eiusmod tempor
-    incididunt ut labore et dolore magna aliqua. Ut enim
-    ad minim veniam, quis nostrud exercitation ullamco laboris
-    nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-    in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-    nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-    sunt in culpa qui officia deserunt mollit anim id est laborum.
-
-header1: Sample Work Experience
-description1: >
-    Lorem ipsum dolor sit amet,
-    consectetur adipisicing elit, sed do eiusmod tempor
-    incididunt ut labore et dolore magna aliqua. Ut enim
-    ad minim veniam, quis nostrud exercitation ullamco laboris
-    nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-    in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-    nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-    sunt in culpa qui officia deserunt mollit anim id est laborum.
-header2: Sample Projects Experience
-description2: >
-    Lorem ipsum dolor sit amet,
-    consectetur adipisicing elit, sed do eiusmod tempor
-    incididunt ut labore et dolore magna aliqua. Ut enim
-    ad minim veniam, quis nostrud exercitation ullamco laboris
-    nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-    in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-    nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-    sunt in culpa qui officia deserunt mollit anim id est laborum.
-
-
+layout: default
 ---
-  <div class="container">
-
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="index.html">Christopher Doege</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="index.html">Home</a></li>
+                <li class="dropdown active">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">About <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="resume.html">Resume</a></li>
+                        <li class="active"><a href="aboutme.html">About Me</a></li>
+                    </ul>
+                </li>
+                <li><a href="projects.html">Projects</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Writing<span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="Technical-Writing.html">Technical Writing</a></li>
+                    </ul>
+                </li>
+                <li><a href="Credits.html">Credits</a></li>
+                <li><a target="_blank" href="https://plus.google.com/+ChrisDoege/about">Google Plus</a></li>
+                <li><a target="_blank" href="https://github.com/cdminigun">Github</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>
+<div class="container-fluid">
     <div class="row">
-          <h1 class="text-center"> About Me </h1>
-          <p class="text-center" style="font-size:20px;"> {{ page.intro }} </p>
-          <h2 class="text-center" style="padding:2em;"> {{ page.header1 }} </h2>
-          <p style="font-size:20px;"> {{ page.description1 }}</p> 
-          <h2 class="text-center" style="padding:2em;"> {{ page.header2 }} </h2>
-          <p style="font-size:20px;"> {{ page.description1 }}</p>
+        <div class="padding">
+            <div class="col-md-2 col-sm-2">
+                <img class="sidebar_left" src="images/about_me_img.png">
+            </div>
+            <div class="col-md-8 col-sm-8">
+                <h1 class="text-center"> My dreams slowly turning into a reality </h1>
+                <hr>
+                <p> Throughout life we are faced with millions of choices as to the direction we wish to lead ourselves. Through numerous encounters with various professionals in their respective fields and developing my traits as an individual, I have decided to direct my path towards technology and technological advances. Below is an intrinsic analysis of my interests, goals, dreams, and hobbies. </p>
+                <div class="row">
+
+                    <div class="col-md-6 col-sm-6">
+                        <h3 class="text-center">My Interests</h3>
+                        <ul>
+                            <li> Security - Pen-Testing, Hardening devices, mischievous programs </li>
+                            <li> Programming - C, Python, C++, Java </li>
+                            <li> Networking - Distributed networks, cloud computing, business solutions</li>
+                            <li> Computer Forensics - Stenography, inspection of passwords, Cross Drive Analysis </li>
+                            <li> Astronomy & Astrology - Astro-physics, Computer assisted star discovery, algorithms pertaining to space </li>
+                            <li> Teaching Platforms - bridging gaps between science and programming</li>
+                            <li> Technological Advances and Innovation - Quantum Computing, Advanced algorithms, Cloud Computing</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6 col-sm-6">
+                        <h3 class="text-center">My Goals</h3>
+                        <ul>
+                            <li> Learn a plethora of programming languages & utilize them to further my networking/security goals.  </li>
+                            <li> Give back to my community in the form of web development or teaching new programmers. </li>
+                            <li> Obtain my Security Plus, CEH and various Linux / Red Hat Certifications. </li>
+                            <li> Apply my programming skills to the field of astrophysics for data collection & innovation.</li>
+                            <li> Enlighten individuals on best practices for Security to ensure that breaches are avoided. </li>
+                            <li> Research and test various security topics. </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 col-sm-6">
+                        <h3 class="text-center"> My Dreams: </h3>
+                        <ul>
+                            <li> Create a better way to do web-design.(The current way that website design works is a bit broken.)</li>
+                            <li> Discover a new star or planet </li>
+                            <li> Develop a technology which helps society </li>
+                            <li> Travel the world </li>
+                            <li> Attempt to cheat death with various activities involving heights. </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6 col-sm-6">
+                        <h3 class="text-center"> My Hobbies:</h3>
+                        <ul>
+                            <li> Web Design - creating random apps that I can access through a web interface to aid my daily life in some way. </li>
+                            <li> Reading News Articles / Listening to News Pod-casts </li>
+                            <li> Reading up on new programming standards </li>
+                            <li> Japanese Animated shows </li>
+                            <li> Overly-Addictive video games </li>
+                        </ul>
+                    </div>
+                    &nbsp;
+                    <h2 class="text-center"> Giving back: </h2>
+                    <p> Giving back to the community is very important to me and I enjoy helping various non profits or charities with the various skills I offer. I also commonly give blood through <a href="http://southtexasblood.org/"> South Texas Blood and Tissue Center</a> and I would enjoy it if anyone who views this page considers donating as well. I also enjoy going to the <a href = "http://adltexas.org/">Animal Defense League</a> and volunteering. I worked at an animal shelter when I was younger and have always felt a calling to help them. Anyone can go to the ADL and volunteer by walking dogs, spending time with cats or assistancing with feeding.  </p>
+                    <p> I've also volunteered with Rackspace and Cyber Patriot to coach youth in middle school through high school in the aspects of cyber security, networking and forensics.  </p>
+                    &nbsp;
+                    <h2 class="text-center"> Academia: </h2>
+                    <p> I've had experience with teaching K-12th graders and from this experience I have developed a love for academia. Eventually when I become more experienced within the world of technology I'd like to teach childen and individuals attempting to   </p>
+                    <p> I am a student at The University of Texas at San Antonio studying for a degree in Computer Science with an emphasis in security. Through UTSA I'd like propell myself further within both the software development and security aspects of technology. I feel both of these aspects go together well and I'd enjoy further research into teaching individuals security pragmatically to ensure poorly programmed programs rarely enter production, rather than being the unfortunate norm.   </p>
+                    &nbsp;
+                    <h2 class="text-center"> Competitions: </h2>
+                    <h4> High School </h4>
+                    <p> In high school I participated in FRC, FTC and Cyber Patriot. These competitions prepared me for various team based business scenarios and aided me in learning various concepts in both programming and security.  </p>
+                    <h4> College: </h4>
+                    <p> In college I have participated in CCDC, Cyber Olympics and CSAW. In these compettiions I have honed my skills and developed new ones to meet the changing dynamics of cyber security. I often leverage my Computer Science skills within these competitions to write scripts and automate tasks.  </p>
+                </div>
+            </div>
+            <div class="col-md-2 col-sm-2">
+                <img class="sidebar_right" src="images/about_me_img.png">
+            </div>
         </div>
     </div>
-	</div>
 </div>
-
-  </div>
-  &nbsp;
-  &nbsp;
-  &nbsp;
-  &nbsp;
-<hr>

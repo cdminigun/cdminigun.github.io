@@ -1,20 +1,10 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en" class="no-js">
+{% include head.html %}
 
-  {% include head.html %}
+<body>
+{{ content }}
 
-    <body data-spy="scroll" data-target="#myScrollspy">
-        <article class="post-content">
-      <div id="{{page.divlink}}">
-      {{ content }}
-    </article>
-</div>
-</div>
-</div>
-    {% include footer.html %}
-
-    <!-- mathjax -->
-    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-    </body>
+{% include footer.html %}
+</body>
 </html>
