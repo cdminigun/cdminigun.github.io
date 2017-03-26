@@ -1,2 +1,9 @@
-# Website-Template
-Jekyll Template for github pages for the ACM members. Utilized in presentation to ACM members. 
+# doege.pw
+
+A development site for my personal website. 
+
+Currently:
+Built with Bootstrap and a few fancy JS files. 
+
+Future:
+Add additional functionality with Django. Extend my documentation of various tests and projects in development. 
