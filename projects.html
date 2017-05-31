@@ -1,63 +1,97 @@
 ---
 layout: default
 ---
+<div class="padding">
+  <div class="col-md-2 col-sm-2">
+      <img class="sidebar_left" src="images/sidebar.png">
+  </div>
+  <div class="col-md-8 col-sm-8">
+    <h2> <a target="_blank" href="https://github.com/cdminigun/SABSides2017"> SABSides2017: Programs and Slides from my BSides talk </a> </h2>
+    <hr>
+    <p class="lead"> This is a collection of slides and programs that I worked on for a presentation at San Antonio BSides in 2017. The primary focus of this talk was to talk about the disparity of encryption and relative lack of tooling for encryption at the application layer for things dealing with socket communications. I also covered some of the issues in cryptography that happen and specific layers as well as a few toy examples and fixes that allow for a somewhat secure environment, provided there are still quite a few issues with the implementation and I would not recommend utilizing this within a production setting.  </p>
+    <h2> <a target="_blank" href="https://github.com/cdminigun/SXDK"> SXDK: Software Exploit Development Kit </a> </h2>
+    <hr>
+    <p class="lead"> A relatively simple GUI interface for developing eggs that allow for exploitation of various stack overflows with an exploitable stack. Note that the NX bit must be set on the machine in order for this type of attack to work. This is predominately for older systems tests and to allow for automation, through a back-end python script, of exploits. </p>
+<pre>
+usage: sxdk.py [-h] [-f NUM_OF_ADDRESSES] [-t TOTAL_SIZE]
+               [-o OPERATING_SYSTEM] [-a ARCHITECTURE] [-s STARTING_ADDRESS]
+               [-e ENDIANNESS] [-d OFFSET] [-n NAME_OF_FILE] [-r REMOTE]
+               [-b BINARY]
 
-<nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="index.html">Christopher Doege</a>
-        </div>
-        <div id="navbar" class="collapse navbar-collapse">
-            <ul class="nav navbar-nav">
-                <li><a href="index.html">Home</a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">About <span class="caret"></span></a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a href="resume.html">Resume</a></li>
-                        <li><a href="aboutme.html">About Me</a></li>
-                    </ul>
-                </li>
-                <li class="active"><a href="projects.html">Projects</a></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Writing<span class="caret"></span></a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a href="technical-writing.html">Technical Writing</a></li>
-                    </ul>
-                </li>
-                <li><a href="credits.html">Credits</a></li>
-                <li><a target="_blank" href="https://plus.google.com/+ChrisDoege/about">Google Plus</a></li>
-                <li><a target="_blank" href="https://github.com/cdminigun">Github</a></li>
-            </ul>
-        </div><!--/.nav-collapse -->
-    </div>
-</nav>
-  <div class="padding">
-      <div class="col-md-2 col-sm-2">
-          <img class="sidebar_left" src="images/sidebar.png">
-      </div>
-      <div class="col-md-8 col-sm-8">
-        <h2> <a target="_blank" href="https://github.com/cdminigun/Revolving-Css-Animations">Revolving - CSS - Animations</a></h2>
-        <p class="lead"> My first tutorial on how to create a revolving css animation, hopefully many more tutorials to come!
-        &nbsp;
-        This project revolved around a learning experience I had with keyframes and animations. At first they seem quite daunting and a bit confusing.
-        However after working with them for a while, keyframes and animations become easy to manage and add an interesting flare to a website.
-        &nbsp;
-        If you look into the Github repo and pull navigate through the code, you'll see a brief example utilizing some general css and html I wrote with a picture
-        that I created for my current website. (My life-story section) Most of the design and flare for this project comes from the creative process of
-        developing an image to use for your website, project, etc. For the most part, the effect is easy to emulate and I drew inspiration for this
-        animation style from a website that would transition while scrolling (However, rather than using Z-index I setup an animation & keyframe.)
-        I thought the premise was quite interesting and decided to make my own with some subtle changes. </p>
-      </div>
-      <div class="col-md-2 col-sm-2">
-          <img class="sidebar_right" src="images/sidebar.png">
-      </div>
+Shell Exploitation Development Kit
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -f NUM_OF_ADDRESSES, --num_of_addresses NUM_OF_ADDRESSES
+                        Number of addresses at the end of the egg.
+  -t TOTAL_SIZE, --total_size TOTAL_SIZE
+                        The total size of your egg.
+  -o OPERATING_SYSTEM, --operating_system OPERATING_SYSTEM
+                        The OS of your system. Ex. Linux/PPC, Linux/x86,
+                        Linux/x86_64
+  -a ARCHITECTURE, --architecture ARCHITECTURE
+                        32 or 64 bit depending upon the machine.
+  -s STARTING_ADDRESS, --starting_address STARTING_ADDRESS
+                        The starting address for your system based upon your
+                        stack.
+  -e ENDIANNESS, --endianness ENDIANNESS
+                        The endianness of your program. EX. little, big
+  -d OFFSET, --offset OFFSET
+                        The offset relative to the address. Utilized for
+                        guessing multiple spaces.
+  -n NAME_OF_FILE, --name_of_file NAME_OF_FILE
+                        Name of the output file.
+  -r REMOTE, --remote REMOTE
+                        Connects and sends data to a remote endpoint. Format:
+                        IPADDR:PORT
+  -b BINARY, --binary BINARY
+                        path to the binary that is to be exploited. Assumes
+                        input through argv.
+</pre>
+    <h2> <a target="_blank" href="https://github.com/cdminigun/Sharpturn"> Sharpturn: CSAW 2015 Writeup </a> </h2>
+    <hr>
+    <p class="lead"> This is a writeup from a CTF competition that I competed in, CSAW 2015, and worked primarily on the git forensics challenge. The challenge involved a deep dive into some of the functionality of git as well as quite a few other steps. Overall it was really fun.  </p>
+    <h2> <a target="_blank" href="https://github.com/cdminigun/passwordgen"> passwordgen: A small, probably inefficient, password generator. </a> </h2>
+    <hr>
+    <p class="lead"> A password generation binary that allows for several types of password files to be generated through various permutations and combinatorics.
+      This can be useful for various problems, such as testing the security of passwords with the use of various password cracking tools like JohnTheRipper or hashcat.
+    </p>
+
+    <h3> Useage: </h3>
+
+    <p> Each individual digit entered counts for one character. Each digit also correlates to a string of characters. I also recommend taking output to a file to save the generated permutations. </p>
+    <ul>
+      <li> 2 - "abc..." all lowercase letters </li>
+      <li> 3 - "ABC..." all uppercase letters </li>
+      <li> 4 - "012..." all numbers </li>
+      <li> 5 - "!@#..." all special characters </li>
+      <li> 6 - "abcABC!@#" Every character list combined, note this is dangerous and will lead to massive file sizes / long times for outputs. </li>
+    </ul>
+
+    <h3> Examples: </h3>
+
+    <p> ./passwordgen 22222 </p>
+
+    <p> //Generates all permutations of "abc.." and outputs them. </p>
+
+    <p> ./passwordgen 666666 > example.txt </p>
+
+    <p> //Generates all 6 permutations of every possible character. Builds a fairly good list, but this file will get quite large. </p>
+
+    &nbsp;
+    <h2> <a target="_blank" href="https://github.com/cdminigun/Revolving-Css-Animations">Revolving - CSS - Animations</a></h2>
+    <hr>
+    <p class="lead"> My first tutorial on how to create a revolving css animation, hopefully many more tutorials to come!
+    &nbsp;
+    This project revolved around a learning experience I had with keyframes and animations. At first they seem quite daunting and a bit confusing.
+    However after working with them for a while, keyframes and animations become easy to manage and add an interesting flare to a website.
+    If you look into the Github repo and pull navigate through the code, you'll see a brief example utilizing some general css and html I wrote with a picture
+    that I created for my current website. (My life-story section) Most of the design and flare for this project comes from the creative process of
+    developing an image to use for your website, project, etc. For the most part, the effect is easy to emulate and I drew inspiration for this
+    animation style from a website that would transition while scrolling (However, rather than using Z-index I setup an animation & keyframe.)
+    I thought the premise was quite interesting and decided to make my own with some subtle changes. </p>
+  </div>
+  <div class="col-md-2 col-sm-2">
+    <img class="sidebar_right" src="images/sidebar.png">
   </div>
 </div>
