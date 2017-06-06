@@ -1,0 +1,102 @@
+---
+layout: security
+---
+
+<h1 style="text-align:center;padding-top:2em;font-weight:bold;"> Linux Backdoors: </h1>
+<h2 style="text-align:center;"> Part 0 - What are Linux Backdoors? </h2>
+<div style="padding-right:2em;" class="lead">
+
+  <h3> Purpose </h3>
+  <p>
+    The purpose of this series is to give individuals the background knowledge necessary to become involved in the development of Linux backdoors. I will attempt to provide all necessary information that will be required within the introductory article (part 0).
+  </p>
+  <p>
+    If there are any questions or issues with material, please feel free to make an issue on github or DM me.
+  </p>
+  <h3> Build </h3>
+  <p>
+    I am using an Arch Linux X86-64 VM. Download link can be found <a target="_blank" href="http://mirror.rackspace.com/archlinux/iso/2017.06.01/"> here </a>.
+  </p>
+  <p>
+    I recommend maintaining versions as close to mine as possible. In further articles I will post the version number, kernel version as well as other necessities to ensure things will work. I'll also probably make the VM public as soon as I put P1 out.
+  </p>
+  <h3> Assumptions </h3>
+  <p>
+    There are several assumptions that I’ve considered when writing these articles.
+  </p>
+  <ul>
+    <li> The build environment is the same as mine </li>
+    <li> Familiarity with 64 bit environments </li>
+    <li> You have some experience with Linux, assembly, and C programming </li>
+    <li>  You’re willing to dive into source code </li>
+    <li>  Some understanding of malicious attacks </li>
+  </ul>
+
+  <h3>  Layout </h3>
+  <p>
+    This series shall be broken into 5 (possibly 6) chunks that cover various portions of backdoor creation and persistence.
+  </p>
+  <ul>
+    <li> Part 0 – Introductory reading and basics</li>
+    <li> Part 1 – Deep dive into creating a backdoor within a binary (SSH) </li>
+    <li> Part 2 – In depth analysis of shared objects and kernel objects </li>
+    <li> Part 3 – Shared Object backdoor techniques </li>
+    <li> Part 4 – Kernel Object backdoor techniques </li>
+    <li> Part 5 – GPU user-land persistence (Tentative) </li>
+  </ul>
+
+  <h3> So...what is Linux? </h3>
+  <img src="{{site.baseurl}}/images/backdoors1.png" class="img-fluid" style="max-width:92%;padding-bottom:2em;" alt="Linux kernel source distribution">
+  <p>
+    Linux is a fairly complex series of C, C++, and assembly code that allows for the heavy lifting API interface between user and hardware.  This can be distributed into both the Linux (GNU) Operating System and the Linux Kernel. Backdoors can exist in each sector and are often utilized through different mediums. Note that kernel backdoors are almost always going to be more difficult than user backdoors.
+  </p>
+  <p>
+    The transfer between user modes and kernel modes happens when .We tend to classify these sectors as kernel-land and user-space.
+  </p>
+  <h3> Kernel-land </h3>
+  <p>
+    The first thing to start after POST, BIOS, and the MBR is the boot loader(usually GRUB) which then loads the kernel. The kernel generally starts at a ring level of 0, ring levels referring to the level of access and control that something has, and then pivots out of 0 when the O.S. starts. It is imperative to start in ring 0 in order for the kernel to be able to initialize certain values, handle drivers, direct hardware, direct memory, DMA and so on.
+  </p>
+  <p>
+    Pivoting into kernel-land can be a relatively difficult task. However, this can be done through the use of malicious drivers or kernel object insertion with Loadable Kernel Modules (LKM). LKMs can allow for backdoors to be placed without having integrating into the base kernel. This means that the kernel can essentially be ‘hot patched’, which allows for some malicious use without the need for a reboot. This topic will be covered more in depth with part 2 and 4 of this series.
+  </p>
+
+  <h3> User-space (user-land) </h3>
+
+  <p>
+    User space is loaded once the Kernel initializes the O.S. and transfers things over to ring 3, which infers limited access and control. Note this is pretty common and almost mandatory as memory errors and basic use could accidentally cause issues otherwise. User applications and other tools run within user-space. Note that user applications can be defined as a GUI, script, program, etc.
+  </p>
+  <p>
+    Malicious actors generally pivot into user-space through the use of an exploit or user/password access. As such, it is easiest to lay down persistence within user-land due to the ease of access. User-space persistence generally revolves around deploying backdoors into common binaries or libraries that are used. For instance, a future portion of this series will involve deploying a backdoor into the SSH binary that allows for a certain user to have access without authentication. Shared libraries will also be covered more in part 2 of this series in which I’ll go in depth into how these libraries are created and utilized. After a thorough understanding is gained, I will finally describe the techniques related with examples in practice.
+  </p>
+  <h3> How do they work together? </h3>
+  <p>
+    So we know that only user programs and scripts can be run within user-space, however there are times when user-space needs to access a hardware device or code within the kernel. This can be arranged through an API like interface called system calls.
+  </p>
+  <img src="{{site.baseurl}}/images/backdoors2.png" class="img-fluid" style="max-width:92%;padding-bottom:2em;" alt="System Call / Trap reference">
+  <p style="font-style:italic;font-size:18px;">Image Source: Operating System Concepts - Silberschatz, Galvin, Gange </p>
+  <p>
+    In the above picture, we can see a user prompting the kernel via a system call. This causes a trap to be issued with the trap bit to be set; another bit is then set to 0 for kernel mode, which allows for execution within the kernel. The kernel takes over and executes the portion in which it is needed then returns execution by setting the trap bit to 1, returning the output from it’s function, and allowing the user-space program to take back control.
+  </p>
+  <p>
+    This is useful knowledge because it allows us to see how transactions are processed and the separation of powers user-space and kernel-land. It also notes that code cannot be arbitrarily run from within user-space into kernel-land due to how syscalls and other things work. As such, we have to have a special process in order to place a backdoor within the kernel.  This process will be covered more in later articles.
+  </p>
+  <h3> Further Reading / References: </h3>
+  <p>  <a href="http://minnie.tuhs.org/CompArch/Lectures/week05.html" target="_blank"> http://minnie.tuhs.org/CompArch/Lectures/week05.html </p>
+
+  <p> <a href="http://www.cs.utsa.edu/~korkmaz/teaching/resources-os-ug/tk-slides/tk01-os-introduction.pdf" target="_blank">  http://www.cs.utsa.edu/~korkmaz/teaching/resources-os-ug/tk-slides/tk01-os-introduction.pdf </p>
+
+  <p> <a href="http://www.tldp.org/HOWTO/KernelAnalysis-HOWTO-3.html" target="_blank"> http://www.tldp.org/HOWTO/KernelAnalysis-HOWTO-3.html</p>
+
+  <p> <a href="http://www.thegeekstuff.com/2011/02/linux-boot-process" target="_blank"> http://www.thegeekstuff.com/2011/02/linux-boot-process </p>
+
+  <p> <a href="https://en.wikipedia.org/wiki/Protection_ring" target="_blank"> https://en.wikipedia.org/wiki/Protection_ring</p>
+
+  <p> <a href="https://en.wikipedia.org/wiki/User_space" target="_blank"> https://en.wikipedia.org/wiki/User_space </p>
+
+  <p><a href="https://stackoverflow.com/questions/16649824/the-relation-between-privileged-instructions-traps-and-system-calls" target="_blank"> https://stackoverflow.com/questions/16649824/the-relation-between-privileged-instructions-traps-and-system-calls </p>
+
+  <p> <a href="https://unix.stackexchange.com/questions/6931/what-is-the-difference-between-a-library-call-and-a-system-call-in-linux" target="_blank"> https://unix.stackexchange.com/questions/6931/what-is-the-difference-between-a-library-call-and-a-system-call-in-linux</p>
+   <p> <a  target="_blank" href="http://www.thegeekstuff.com/2012/07/system-calls-library-functions/"> http://www.thegeekstuff.com/2012/07/system-calls-library-functions/ </a> </p>
+
+</div>
