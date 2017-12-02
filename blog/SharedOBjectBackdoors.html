@@ -15,10 +15,10 @@ layout: security
   </p>
   <h3> Build </h3>
   <p>
-    I am using an Arch Linux X86-64 VM. Download link can be found <a target="_blank" href="http://mirror.rackspace.com/archlinux/iso/2017.06.01/"> here </a>.
+    I am using an Ubuntu 16.04.3 LTS (Xenial Xerus) 64-bit PC (AMD64) desktop image VM. Download link can be found <a target="_blank" href="http://releases.ubuntu.com/16.04/"> here </a>.
   </p>
   <p>
-    I recommend maintaining versions as close to mine as possible. In further articles I will post the version number, kernel version as well as other necessities to ensure things will work. I'll also probably make the VM public as soon as I put P1 out.
+    I recommend maintaining versions as close to mine as possible. In further articles I will post the version number, kernel version, sha512 hash, as well as other necessities to ensure things will work. I'll also probably make the VM public as soon as I put P1 out.
   </p>
   <h3> Assumptions </h3>
   <p>
@@ -28,8 +28,8 @@ layout: security
     <li> The build environment is the same as mine </li>
     <li> Familiarity with 64 bit environments </li>
     <li> You have some experience with Linux, assembly, and C programming </li>
-    <li>  You’re willing to dive into source code </li>
-    <li>  Some understanding of malicious attacks </li>
+    <li> You’re willing to dive into source code </li>
+    <li> Some understanding of malicious attacks </li>
   </ul>
 
   <h3>  Layout </h3>
@@ -51,14 +51,14 @@ layout: security
     Linux is a fairly complex series of C, C++, and assembly code that allows for the heavy lifting API interface between user and hardware.  This can be distributed into both the Linux (GNU) Operating System and the Linux Kernel. Backdoors can exist in each sector and are often utilized through different mediums. Note that kernel backdoors are almost always going to be more difficult than user backdoors.
   </p>
   <p>
-    The transfer between user modes and kernel modes happens when .We tend to classify these sectors as kernel-land and user-space.
+    The transfer between user modes and kernel modes happens when a system call is executed, the trap bit is set, and the CS register's 2 bit field has been set to 0 (Note that this is hardware specific, but is relatively the same across most vendors). The values that can be stored within the CS register in linux are 0, most privileges, and 3, least privileges. We tend to classify these sectors as kernel-land and user-space.
   </p>
   <h3> Kernel-land </h3>
   <p>
     The first thing to start after POST, BIOS, and the MBR is the boot loader(usually GRUB) which then loads the kernel. The kernel generally starts at a ring level of 0, ring levels referring to the level of access and control that something has, and then pivots out of 0 when the O.S. starts. It is imperative to start in ring 0 in order for the kernel to be able to initialize certain values, handle drivers, direct hardware, direct memory, DMA and so on.
   </p>
   <p>
-    Pivoting into kernel-land can be a relatively difficult task. However, this can be done through the use of malicious drivers or kernel object insertion with Loadable Kernel Modules (LKM). LKMs can allow for backdoors to be placed without having integrating into the base kernel. This means that the kernel can essentially be ‘hot patched’, which allows for some malicious use without the need for a reboot. This topic will be covered more in depth with part 2 and 4 of this series.
+    Pivoting into kernel-land can be a relatively difficult task. However, this can be done through the use of malicious drivers or kernel object insertion with Loadable Kernel Modules (LKM). LKMs can allow for backdoors to be placed without having to integrate directly into the base kernel source and recompile things. This means that the kernel can essentially be ‘hot patched’, which allows for some malicious use without the need for a reboot. This topic will be covered more in depth with part 2 and 4 of this series.
   </p>
 
   <h3> User-space (user-land) </h3>
@@ -82,21 +82,25 @@ layout: security
     This is useful knowledge because it allows us to see how transactions are processed and the separation of powers user-space and kernel-land. It also notes that code cannot be arbitrarily run from within user-space into kernel-land due to how syscalls and other things work. As such, we have to have a special process in order to place a backdoor within the kernel.  This process will be covered more in later articles.
   </p>
   <h3> Further Reading / References: </h3>
-  <p>  <a href="http://minnie.tuhs.org/CompArch/Lectures/week05.html" target="_blank"> http://minnie.tuhs.org/CompArch/Lectures/week05.html </p>
+  <p>  <a href="http://minnie.tuhs.org/CompArch/Lectures/week05.html" target="_blank"> http://minnie.tuhs.org/CompArch/Lectures/week05.html </a></p>
 
-  <p> <a href="http://www.cs.utsa.edu/~korkmaz/teaching/resources-os-ug/tk-slides/tk01-os-introduction.pdf" target="_blank">  http://www.cs.utsa.edu/~korkmaz/teaching/resources-os-ug/tk-slides/tk01-os-introduction.pdf </p>
+  <p> <a href="http://www.cs.utsa.edu/~korkmaz/teaching/resources-os-ug/tk-slides/tk01-os-introduction.pdf" target="_blank">  http://www.cs.utsa.edu/~korkmaz/teaching/resources-os-ug/tk-slides/tk01-os-introduction.pdf </a></p>
 
-  <p> <a href="http://www.tldp.org/HOWTO/KernelAnalysis-HOWTO-3.html" target="_blank"> http://www.tldp.org/HOWTO/KernelAnalysis-HOWTO-3.html</p>
+  <p> <a href="http://www.tldp.org/HOWTO/KernelAnalysis-HOWTO-3.html" target="_blank"> http://www.tldp.org/HOWTO/KernelAnalysis-HOWTO-3.html</a></p>
 
-  <p> <a href="http://www.thegeekstuff.com/2011/02/linux-boot-process" target="_blank"> http://www.thegeekstuff.com/2011/02/linux-boot-process </p>
+  <p> <a href="http://www.thegeekstuff.com/2011/02/linux-boot-process" target="_blank"> http://www.thegeekstuff.com/2011/02/linux-boot-process </a></p>
 
-  <p> <a href="https://en.wikipedia.org/wiki/Protection_ring" target="_blank"> https://en.wikipedia.org/wiki/Protection_ring</p>
+  <p> <a href="https://en.wikipedia.org/wiki/Protection_ring" target="_blank"> https://en.wikipedia.org/wiki/Protection_ring</a></p>
 
-  <p> <a href="https://en.wikipedia.org/wiki/User_space" target="_blank"> https://en.wikipedia.org/wiki/User_space </p>
+  <p> <a href="https://en.wikipedia.org/wiki/User_space" target="_blank"> https://en.wikipedia.org/wiki/User_space </a></p>
 
-  <p><a href="https://stackoverflow.com/questions/16649824/the-relation-between-privileged-instructions-traps-and-system-calls" target="_blank"> https://stackoverflow.com/questions/16649824/the-relation-between-privileged-instructions-traps-and-system-calls </p>
+  <p><a href="https://stackoverflow.com/questions/16649824/the-relation-between-privileged-instructions-traps-and-system-calls" target="_blank"> https://stackoverflow.com/questions/16649824/the-relation-between-privileged-instructions-traps-and-system-calls </a></p>
 
-  <p> <a href="https://unix.stackexchange.com/questions/6931/what-is-the-difference-between-a-library-call-and-a-system-call-in-linux" target="_blank"> https://unix.stackexchange.com/questions/6931/what-is-the-difference-between-a-library-call-and-a-system-call-in-linux</p>
-   <p> <a  target="_blank" href="http://www.thegeekstuff.com/2012/07/system-calls-library-functions/"> http://www.thegeekstuff.com/2012/07/system-calls-library-functions/ </a> </p>
+  <p> <a href="https://unix.stackexchange.com/questions/6931/what-is-the-difference-between-a-library-call-and-a-system-call-in-linux" target="_blank"> https://unix.stackexchange.com/questions/6931/what-is-the-difference-between-a-library-call-and-a-system-call-in-linux </a></p>
 
+  <p> <a href="http://www.thegeekstuff.com/2012/07/system-calls-library-functions/"  target="_blank" > http://www.thegeekstuff.com/2012/07/system-calls-library-functions/ </a> </p>
+
+  <p> <a href="https://w3.cs.jmu.edu/kirkpams/550-f12/papers/linux_rootkit.pdf"  target="_blank" > https://w3.cs.jmu.edu/kirkpams/550-f12/papers/linux_rootkit.pdf </a> </p>
+
+  <p> <a href="https://stackoverflow.com/questions/13185300/where-is-the-mode-bit"  target="_blank" > https://stackoverflow.com/questions/13185300/where-is-the-mode-bit </a> </p>
 </div>
