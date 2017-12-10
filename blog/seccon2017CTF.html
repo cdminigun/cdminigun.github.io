@@ -1,0 +1,78 @@
+---
+layout: security
+---
+
+<h1 style="text-align:center;padding-top:2em;font-weight:bold;"> SECCON2017</h1>
+<div style="padding-right:2em;">
+<p style="text-align:center;"> <img src="{{site.baseurl}}/images/SECCON2017.png" class="img-fluid" style="max-width:90%;padding-bottom:2em;" alt="SECCON 2017 Chals"> </p>
+<div style="padding-right:1em;" class="lead">
+<h2> Run Me! </h2>
+<img src="{{site.baseurl}}/images/runme.png" class="img-fluid" style="max-width:90%;padding-bottom:2em;" alt="SECCON 2017 Chals">
+<p> Run Me! seemed simple enough and at first I ran it while looking through other channels thinking it may just be simple enough to get points without much effort. </p>
+<p> After documenting some challenges and looking at what was available I came back to this challenge to see if there was anything interesting about it. Upon further investigation it seemed it would take quite a while to find the answer just by running the program.</p>
+<p> After looking into it, the runtime of this recurisve algo is O(2^n). Nobody has time for this execution time, so I went and looked up the value of the input number for fibonacci and took the first 32 digits for the flag. Overall really easy, just misleading. <a href="http://php.bubble.ro/fibonacci/">Website used. </a></p>
+<p> Flag: SECCON{65076140832331717667772761541872} </p>
+<hr>
+<h2> putchar music </h2>
+<img src="{{site.baseurl}}/images/putchar1.png" class="img-fluid" style="max-width:90%;padding-bottom:2em;" alt="SECCON 2017 Chals">
+<p> We were given a one line C program that somehow had the theme song to a movie theme. </p>
+<p> But first we need something a little more readable. </p>
+<img src="{{site.baseurl}}/images/putchar2.png" class="img-fluid" style="max-width:90%;padding-bottom:2em;" alt="SECCON 2017 Chals">
+<p> I've seen music done with error beeps in c before so I thought it may have been something creative like that. </p>
+<p> First we need to compile this beast, which I ended up using gcc -o test test.c -lm. The flags -lm are required in order to compile with pow on most systems. I think OSX just lets you slide by. We've got our binary and can now go through and see what it plays. Unfortunately at this step it was a seemingly random series of beeps. </p>
+<p> After examining the code for a bit we can see it uses the twelth root of 2 to formulate the music. I then changed putchar to printf to see if I could discern anything else, but other than things being cycling and incrementing by 3, there wasn't much there.</p>
+<p> We had a couple people looking at this, but overall it was rather confusing as to what needed to be done.</p>
+<p> I then recalled a blog I'd read that mentioned playing music from /dev/urandom. So I went and looked back at <a href="http://blog.robertelder.org/bash-one-liner-compose-music/"> this </a>. Good ol aplay to the rescue. So I started by piping the output similar to how this blog accomplished it. Also fun to note, at this point I had left things as printf which gave it a sound somewhat similar to the super mario bros theme song. But that was just user error.</p>
+<p> So at 16000 HZ I can hear something melodic, but the pace is far too fast. So I began lowering the hz down to 2000, but even then it seemed too fast. After this I went through a bout of insanty using spotify and other things to try and figure out what this theme song was. None of this really helped. Finally I decided to RTFM and read the man page for aplay. I noticed that there were multiple channels so I decided to play with that. Increasing the number of chanels seemed to speed it up, so lowering it down to 1 would slow it down, right? </p>
+<p> After lowering it down to 1 I realized what the song was and it was rather easy to discern. The final command was like this. </p>
+<pre> ./test | aplay -c 1 -f S32_LE -r 2000 </pre>
+<p> -c for channels, -r for HZ, and -f I just left alone as most of the settings diddn't realy do much. </p>
+<hr>
+<h2> Vigenere3d </h2>
+<img src="{{site.baseurl}}/images/vigenere3d.png" class="img-fluid" style="max-width:90%;padding-bottom:2em;" alt="SECCON 2017 Chals">
+<p> Crypto challenges are notoriously tedious, but this one proved to be an interesting journey. </p>
+<p> The vigenere cipher classically utilizes an alphabet of 26 characters and implements a caesar cipher of shifts cascading down for the entirety of the set. This then has several prameters. The key and the plaintet. </p>
+<p> If your full sample space was abcdefg then it would create the diagram below. </p>
+<pre>
+<div style="font-size:140%">
+abcdefg
+bcdefga
+cdefgab
+defgabc
+efgabcd
+fgabcde
+gabcdef
+</div>
+</pre>
+<p> A lookup can then be done by taking the first key of the plaintext, P, and the key, K, and going to the position on each side. Where they meetup in the middle is the corredponding character for the ciphertext, C. Finally, I like to define N as the total size of the sample space. </p>
+<p> This process can be simplified by looking at the indexes for which creates this mathematical property: </p>
+<pre>
+<div style="font-size:140%">
+Ca = Pa + Ka (mod N)
+Pa = Ca - Ka (mod N)
+</div>
+</pre>
+<p> For this it would be useful to create a lookup in which we can determine the numerical position. If this was standard and only 26 chars, I'd probably use ord. But for the sake of adding something where arbitrary characters and builds could be utilized, a lookup table could be useful for manual verification. Progromatically this can be handled in multiple variations. </p>
+<pre>
+<div style="font-size:140%">
+  0 1 2 3 4 5 6
+  a b c d e f g
+</div>
+</pre>
+<p> Now after the pedantic backstory of vigenere, we need to analyze what's wrong with this implementation. Vigenere by default is vulnerable if the plaintext is longer than the key. So at this point, we assume we're assuming there is some key reuse. </p>
+<p> We know that the first 7 characters are going to be SECCON{, so we have an easy way to decrypt this portion. But now we have to deal with the way in which they've modified it. They've added a 3 dimensional array, which made things somewhat interesting. </p>
+<p> Firstly, our inputs through argv are plaintext and a key. The key then is stored in K1 while the reverse of the key is stored in K2. This holds an interesting property, but we'll get back to this later. Within main we then define our sample space as all A-Za-z0-9_{} which allows for 64 total characters. We then create a 3 dimensional array that correlates to a similar diagram as the one drawn with abcdefg. </p>
+<p> This took me a bit of thinking and at this point I was ready to fall asleep after staying up to work on challenges. In the late dreary hours of my sleep I came upon a realization that the key is combined with the reverse of itself, but this holds an interesting property. If your key is abcdef then we take af be cd dc eb fa and perform lookups in a repeating fashion with whatever plaintext we have. But one thing to note is that there is no difference between af and fa. </p>
+<p> From this realization we can infer that the key is essentially cut in half. But one quirk is that this shortened key will be reversed while next to the first half. So we know that if these combination were combined and created the relation of b f G for the first three we would have G f b as the last three. This property along with the known first seven characters of plaintext allows us to attempt to decrypt the plaintext without knowing what the key actually is.  </p>
+<p> Now the tedious part, proving this theory and getting the appropriate peices.</p>
+<p> We know that the plaintext SECCON{ is used for the first 7 characters. So we need to find the correlating relation of K1 and K2 together. We don't care what these values are individually because we don't need to in order to decrypt the plaintext. From the question we were given the encrypted ciphertext, so we'll take the first 7 characters of that, namely POR4dny. At this point it is good to know that we aren't creating a new key, we are decrypting. For this portion I utilized <a href="https://www.youtube.com/watch?v=VK3qc5Lv8QQ">this video </a> in order to discern how to do this manually. </p>
+<p> From this process I found that the characters were _KP2Za_. Now comes some trial and error. It was never stated that the key was 14 characters, though the asteriks in the key space were 14 chracters. So at this point we should try and see if they key would be 14 characters, but some trial and error could be needed if the key was longer than 14. If we start with assuming the key is 14, then the transformation is _KP2Za__aZ2PK_. We now need to take the next seven characters of the ciphertext and attempt to decrypt these. </p>
+<p> We now repeat the same process, assigning numbers to each value so it is easier for us to look things up. After this decryption process I noticed that the next seven characters turned into WeLcOme. This looked like some form of english to me so I assume my guess of 14 characters was correct. From here we could continue the process of manually decrypting the ciphertext, but no one has time for that. So I then decided to progromatically solve the rest while verifying the first bit of my analysis. </p>
+<img src="{{site.baseurl}}/images/vigenere3d2.png" class="img-fluid" style="max-width:90%;padding-bottom:2em;" alt="SECCON 2017 vigenere3d-2">
+<p> This is my hacked together solution that I solved in the python interpreter. Its a bit sloppy and the math could be hammered out a bit more, but this was the easiest solution I came up with while trying to knock it out. </p>
+<p> Flag: SECCON{Welc0me_to_SECCON_CTF_2017} </p>
+<hr>
+<h2> Conclusion: </h2>
+<p> Overall I really enjoyed participating in SECCON this year and some of the challenges were rather inventive and interesting. I didn't put as much time I intended on due to some other things, but overall I had a lot of fun. I'll be honest and say that the vigenere cipher and putchar challenges took me far longer to figure out than I think they should have. But some of the nuances of these challenges through me off. If anyone has any questions, comments or critiques please let me know through social media or something and thanks for reading. </p>
+</div>
+</div>
